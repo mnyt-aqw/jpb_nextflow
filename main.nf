@@ -11,7 +11,6 @@ The
 */
 nextflow.enable.dsl=2
 workflow {
-    // Collect all read and trim them
     read_ch = Channel.fromPath(params.input_reads)
     .map { file -> tuple(file.baseName, file) }
     bowtie_index_ch = Bowtie_index(download_ref_ch)
@@ -52,7 +51,7 @@ process Download_ref {
     """
     # Download referenses
     datasets download genome accession GCF_000005845.2,GCF_000750555.1 --include gff3,rna,cds,protein,genome,gtf,seq-report,gbff 
-    # unzio downloaded file
+    # unzip downloaded file
     unzip ncbi_dataset.zip 
     """
 }
@@ -78,16 +77,16 @@ process TrimGalore {
 
 process Bowtie_Samtools {
 
-	publishDir "${params.directory_out}/data/RNA/Bowtie_samtools/"
+    publishDir "${params.directory_out}/data/RNA/Bowtie_samtools/"
 
-	input:
-	path reference_genome
+    input:
+    path reference_genome
     tuple val(sample_id), path(read)
     val x
     val y
 
-	output:
-	path "*.sorted.bam"
+    output:
+    path "*.sorted.bam"
     path "*_.txt"
 
     script:
@@ -98,18 +97,16 @@ process Bowtie_Samtools {
 
 process FeatureCounts {
 
-	publishDir "${params.directory_out}/data/RNA/FeatureCounts/"
+    publishDir "${params.directory_out}/data/RNA/FeatureCounts/"
 
-	input:
+    input:
     path mapping
-	path reference_genome
+    path reference_genome
     
-	output:
-
+    output:
     path '*txt'
 
     script:
-
     """
     featureCounts -a ncbi_dataset/data/GCF_000005845.2/genomic.gtf \
     -t gene, \
@@ -131,7 +128,6 @@ process Add_gene_names {
     output:
     path "featurecounts_comb.txt"
 
-
     script:
     """
     python ${params.scripts}/Add_gene_name.py 
@@ -140,13 +136,13 @@ process Add_gene_names {
 
 process Bowtie_index {
 
-	publishDir "${params.directory_out}/data/RNA/bowtie2_index/"
+    publishDir "${params.directory_out}/data/RNA/bowtie2_index/"
 
-	input:
-	file reports
+    input:
+    file reports
 
-	output:
-	file "MG1655*"
+    output:
+    file "MG1655*"
 
     script:
     """
