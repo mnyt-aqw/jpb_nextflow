@@ -55,7 +55,7 @@ process countLines {
     wc -l ${input_file} > output.txt
     """
 }
-
+```
 ## Channel Example
 
 Channels are used to connect processes and manage data flow. In this example, two processes, generateNumbers and sumNumbers, are connected by a channel called numbers.
@@ -69,4 +69,5 @@ process generateNumbers {
 
     output:
     file 'number
+ }
  ```
