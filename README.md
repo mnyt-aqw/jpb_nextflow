@@ -2,6 +2,10 @@
 
 This handout provides an overview of Nextflow, its advantages and disadvantages, and key concepts to help you better understand and utilize this powerful workflow management system.
 
+## What is a Workflow Manager?
+
+A workflow manager is a software tool that automates the execution of a series of computational tasks, organizing them into a coherent and manageable pipeline. It simplifies the process of running complex analyses by managing dependencies, resources, and error handling. By using a workflow manager, researchers can focus on their scientific questions, rather than the technical aspects of their computational tasks.
+
 ## What is Nextflow?
 
 Nextflow is a workflow management system designed to facilitate the development and execution of computational pipelines, particularly in the field of bioinformatics. It is based on the Dataflow programming model, which simplifies the parallel and asynchronous execution of tasks, making it well-suited for handling complex data processing tasks.
@@ -30,3 +34,39 @@ Nextflow is a workflow management system designed to facilitate the development 
 - Community: Nextflow has a large and active community, providing many pre-built pipelines and resources for users.
 
 By understanding the advantages, disadvantages, and key concepts of Nextflow, you will be well-prepared to develop and execute your own computational pipelines.
+
+## Code Examples
+
+Here are some simple Nextflow code examples to help you get started:
+
+### Basic Process
+
+A process is an independent unit of work in a Nextflow pipeline. The example below shows a basic process that reads a file, counts the number of lines, and writes the output to another file.
+
+```nextflow
+process countLines {
+    input:
+    file input_file from 'input.txt'
+
+    output:
+    file 'output.txt'
+
+    """
+    wc -l ${input_file} > output.txt
+    """
+}
+
+## Channel Example
+
+Channels are used to connect processes and manage data flow. In this example, two processes, generateNumbers and sumNumbers, are connected by a channel called numbers.
+
+```nextflow
+Channel.fromList(1..10).set { numbers }
+
+process generateNumbers {
+    input:
+    val x from numbers
+
+    output:
+    file 'number
+ ```
